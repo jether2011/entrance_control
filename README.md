@@ -43,7 +43,13 @@ Pilha de tecnologias que deverão ser utilizadas:
 
 ![](https://github.com/jether2011/entrance_control/blob/master/controle_portaria.png?raw=true)
 
+
+#### Diagrama caso de uso - Controle de Reuniões - CCB
+
+![](https://github.com/jether2011/entrance_control/blob/master/diagrama_caso_de_uso_CR_CCB.png?raw=true)
+
 #### Tarefas (remover daqui e colocar em issues no Github Projects)
+
 1. Criar diagrama de caso de uso atendendo as funcionalidades de CRUD e geração de relatórios tendo como base o diagrama inicial;
 2. Criar diagrama de entidade e relacionamento para cada serviço;
 3. Os serviços ficarão assim divididos:

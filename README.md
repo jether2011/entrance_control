@@ -60,5 +60,5 @@ Pilha de tecnologias que deverão ser utilizadas:
 
 #### Diagrama caso de uso - Controle de Reuniões - CCB
 
-![](https://github.com/jether2011/entrance_control/blob/master/Diagrama-CDU.png?raw=true)
+![](https://github.com/jether2011/entrance_control/blob/master/diagrama_CDU.png?raw=true)
 

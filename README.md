@@ -46,15 +46,5 @@ Pilha de tecnologias que deverão ser utilizadas:
 
 #### Diagrama caso de uso - Controle de Reuniões - CCB
 
-![](https://github.com/jether2011/entrance_control/blob/master/diagrama_caso_de_uso_CR_CCB.png?raw=true)
-
-#### Tarefas (remover daqui e colocar em issues no Github Projects)
-
-1. Criar diagrama de caso de uso atendendo as funcionalidades de CRUD e geração de relatórios tendo como base o diagrama inicial;
-2. Criar diagrama de entidade e relacionamento para cada serviço;
-3. Os serviços ficarão assim divididos:
-a. CRUD de administração e igrejas (todos os cadastros de administração e igreja deverá ocorrer aqui). Necessário criar uma entidade chamada Regional (não está presente no diagrama inicial) pois está sendo pensado para futura propagação do sistema;
-b. Serviço de agendamento e reúne as entidades salão, portaria, reunião (agenda) e categoria;
-c. Serviço de autenticação e autorização irá possuir a funcionalidade de OAtuh e as entidades de usuário e participantes (abstração de colaborador, ministério e outro tipo de usuário que poderá existir). Talvez futuramente esse serviço realize uma integração com o próprio SIGA e o sistema de agendamento e controle de reuniões se mostrar possível de propagação do uso.
-4. Em todos os diagramas de entidade e relacionamento, colocar os atributos e seu tipo, Ex.: nome: String, descrição: String.
+![](https://github.com/jether2011/entrance_control/blob/master/Diagrama-CDU.png?raw=true)
 

@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Document(collection = "meeting_room")
+@Document(collection = "meeting_rooms")
 public class MeetingRoom implements Serializable {
 
     @Id

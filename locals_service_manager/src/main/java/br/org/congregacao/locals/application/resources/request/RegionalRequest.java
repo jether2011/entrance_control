@@ -21,11 +21,11 @@ public final class RegionalRequest implements Serializable {
         return Regional.of(request.getInitial(), request.getDescription());
     }
 
-    public String getInitial() {
+    private String getInitial() {
         return initial;
     }
 
-    public String getDescription() {
+    private String getDescription() {
         return description;
     }
 }

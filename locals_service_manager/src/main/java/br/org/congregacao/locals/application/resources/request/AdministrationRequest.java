@@ -19,11 +19,11 @@ public final class AdministrationRequest implements Serializable {
         return Administration.of(request.getName(), request.getCnpj());
     }
 
-    public String getCnpj() {
+    private String getCnpj() {
         return cnpj;
     }
 
-    public String getName() {
+    private String getName() {
         return name;
     }
 }

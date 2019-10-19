@@ -1,9 +1,9 @@
 package br.org.congregacao.locals.application.resources;
 
-import br.org.congregacao.locals.application.resources.request.AdministrationRequest;
 import br.org.congregacao.locals.application.resources.request.RegionalRequest;
 import br.org.congregacao.locals.domain.Administration;
 import br.org.congregacao.locals.domain.Regional;
+import br.org.congregacao.locals.service.AdministrationService;
 import br.org.congregacao.locals.service.RegionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +22,8 @@ public class RegionalResource implements Serializable {
 
     @Autowired
     private RegionalService regionalService;
+    @Autowired
+    private AdministrationService administrationService;
 
     @GetMapping
     public ResponseEntity<List<Regional>> getAll() {
@@ -48,13 +50,14 @@ public class RegionalResource implements Serializable {
         return ResponseEntity.created(uri).body(regional);
     }
 
-    @PatchMapping("/{id}/administration")
-    public ResponseEntity<Regional> addAdministration(@RequestBody @Valid final AdministrationRequest request, @PathVariable final String id) {
-        final Administration administration = AdministrationRequest.from(request);
-        final Optional<Regional> optionalRegional = regionalService.findById(id);
+    @PatchMapping("/{idRegional}/regional/{idAdministration}/administration")
+    public ResponseEntity<Regional> addAdministration(@PathVariable final String idRegional, @PathVariable final String idAdministration) {
+        final Optional<Administration> optionalAdministration = administrationService.findById(idAdministration);
+        final Optional<Regional> optionalRegional = regionalService.findById(idRegional);
 
-        if (optionalRegional.isPresent()) {
+        if (optionalRegional.isPresent() && optionalAdministration.isPresent()) {
             final Regional regional = optionalRegional.get();
+            final Administration administration = optionalAdministration.get();
             regional.addAdministration(administration);
             regionalService.save(regional);
 

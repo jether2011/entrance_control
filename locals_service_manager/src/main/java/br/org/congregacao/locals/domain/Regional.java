@@ -21,6 +21,7 @@ public final class Regional implements Serializable {
     private String initial;
     private String description;
 
+    @Indexed
     private Set<Administration> administrations = new HashSet<>();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

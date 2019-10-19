@@ -2,17 +2,17 @@ package br.org.congregacao.locals.application.resources.request;
 
 import br.org.congregacao.locals.domain.Administration;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public final class AdministrationRequest implements Serializable {
 
     @NotNull
-    @NotEmpty
+    @NotBlank
     private String name;
     @NotNull
-    @NotEmpty
+    @NotBlank
     private String cnpj;
 
     public static Administration from(final AdministrationRequest request) {
@@ -26,4 +26,8 @@ public final class AdministrationRequest implements Serializable {
     private String getName() {
         return name;
     }
+
+    public void setName(String name) { this.name = name; }
+
+    public void setCnpj(String cnpj) { this.cnpj = cnpj; }
 }

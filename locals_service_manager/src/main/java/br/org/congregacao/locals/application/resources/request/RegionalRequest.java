@@ -18,6 +18,14 @@ public final class RegionalRequest implements Serializable {
     private String description;
 
     public static Regional from(final RegionalRequest request) {
-        return Regional.of(request.initial, request.description);
+        return Regional.of(request.getInitial(), request.getDescription());
+    }
+
+    public String getInitial() {
+        return initial;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

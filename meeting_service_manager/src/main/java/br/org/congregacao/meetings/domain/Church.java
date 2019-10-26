@@ -21,8 +21,6 @@ public final class Church implements Serializable {
     @Indexed(unique = true)
     private String name;
 
-    private String status;
-
     @Indexed(unique = true)
     private String reportNumber;
 
@@ -40,9 +38,8 @@ public final class Church implements Serializable {
         this.updated = LocalDateTime.now();
     }
 
-    private Church(final String name, final String status, final String reportNumber, final String meetingRoom) {
+    private Church(final String name, final String reportNumber, final String meetingRoom) {
         this.name = name;
-        this.status = status;
         this.reportNumber = reportNumber;
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
@@ -50,8 +47,8 @@ public final class Church implements Serializable {
         this.addMeetingRoom(meetingRoom);
     }
 
-    public Church of(final String name, final String status, final String reportNumber, final String meetingRoom) {
-        return new Church(name, status, reportNumber, meetingRoom);
+    public static Church of(final String name, final String reportNumber, final String meetingRoom) {
+        return new Church(name, reportNumber, meetingRoom);
     }
 
     public void addMeetingRoom(final String meetingRoom) {
@@ -64,10 +61,6 @@ public final class Church implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public String getReportNumber() {

@@ -1,6 +1,6 @@
-package br.org.congregacao.locals.domain;
+package br.org.congregacao.meetings.domain;
 
-import br.org.congregacao.locals.domain.types.EntranceType;
+import br.org.congregacao.meetings.domain.types.EntranceType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.azam.ulidj.ULID;
 import org.springframework.data.annotation.Id;
@@ -52,9 +52,7 @@ public class MeetingRoom implements Serializable {
         this.entrances.add(Objects.requireNonNull(EntranceType.valueOf(entrance), "The Entrance Value was not found!"));
     }
 
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
 
     public String getName() {
         return name;
@@ -64,9 +62,7 @@ public class MeetingRoom implements Serializable {
         return description;
     }
 
-    public Set<EntranceType> getEntrances() {
-        return Collections.unmodifiableSet(entrances);
-    }
+    public Set<EntranceType> getEntrances() { return Collections.unmodifiableSet(entrances); }
 
     public LocalDateTime getCreated() {
         return created;
@@ -76,7 +72,5 @@ public class MeetingRoom implements Serializable {
         return updated;
     }
 
-    public void setUpdated(final LocalDateTime updated) {
-        this.updated = updated;
-    }
+    public void setUpdated(final LocalDateTime updated) { this.updated = updated; }
 }

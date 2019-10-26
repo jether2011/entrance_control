@@ -1,4 +1,4 @@
-package br.org.congregacao.locals.domain;
+package br.org.congregacao.meetings.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.azam.ulidj.ULID;
@@ -8,36 +8,54 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-@Document(collection = "administrations")
-public class Administration implements Serializable {
+@Document(collection = "churches")
+public final class Church implements Serializable {
 
     @Id
     private String id = ULID.random();
+
     @Indexed(unique = true)
     private String name;
+
+    private String status;
+
     @Indexed(unique = true)
-    private String cnpj;
+    private String reportNumber;
+
+    @Indexed
+    private Set<String> meetingRooms = new HashSet<String>();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updated;
 
-    public Administration() {
+    public Church() {
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
     }
 
-    private Administration(final String name, final String cnpj) {
+    private Church(final String name, final String status, final String reportNumber, final String meetingRoom) {
         this.name = name;
-        this.cnpj = cnpj;
+        this.status = status;
+        this.reportNumber = reportNumber;
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
+
+        this.addMeetingRoom(meetingRoom);
     }
 
-    public static Administration of(final String name, final String cnpj) {
-        return new Administration(name, cnpj);
+    public Church of(final String name, final String status, final String reportNumber, final String meetingRoom) {
+        return new Church(name, status, reportNumber, meetingRoom);
+    }
+
+    public void addMeetingRoom(final String meetingRoom) {
+        this.meetingRooms.add(meetingRoom);
     }
 
     public String getId() {
@@ -48,9 +66,15 @@ public class Administration implements Serializable {
         return name;
     }
 
-    public String getCnpj() {
-        return cnpj;
+    public String getStatus() {
+        return status;
     }
+
+    public String getReportNumber() {
+        return reportNumber;
+    }
+
+    public Set<String> getMeetingRooms() { return Collections.unmodifiableSet(meetingRooms); }
 
     public LocalDateTime getCreated() {
         return created;

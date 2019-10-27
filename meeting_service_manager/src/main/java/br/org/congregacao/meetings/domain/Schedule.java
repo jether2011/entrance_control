@@ -1,6 +1,5 @@
 package br.org.congregacao.meetings.domain;
 
-import br.org.congregacao.meetings.domain.types.EntranceType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.azam.ulidj.ULID;
 import org.springframework.data.annotation.Id;

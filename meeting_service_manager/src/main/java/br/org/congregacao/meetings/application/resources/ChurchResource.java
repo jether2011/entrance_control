@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/v1/church")
+@RequestMapping(value = "/api/v1/churches")
 public class ChurchResource implements Serializable {
 
     @Autowired
@@ -47,6 +47,12 @@ public class ChurchResource implements Serializable {
 
         final URI uri = uriBuilder.path("/church/{id}").buildAndExpand(church.getId()).toUri();
         return ResponseEntity.created(uri).body(church);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Church> delete(@PathVariable String id) {
+        churchService.deleteById(id);
+        return ResponseEntity.accepted().build();
     }
     
 }

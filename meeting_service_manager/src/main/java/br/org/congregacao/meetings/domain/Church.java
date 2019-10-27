@@ -43,8 +43,6 @@ public final class Church implements Serializable {
         this.reportNumber = reportNumber;
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
-
-        this.addMeetingRoom(meetingRoom);
     }
 
     public static Church of(final String name, final String reportNumber, final String meetingRoom) {

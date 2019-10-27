@@ -2,6 +2,7 @@ package br.org.congregacao.meetings.application.resources;
 
 import br.org.congregacao.meetings.application.resources.request.MeetingRequest;
 import br.org.congregacao.meetings.domain.Meeting;
+import br.org.congregacao.meetings.service.ChurchService;
 import br.org.congregacao.meetings.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
@@ -20,6 +22,9 @@ public class MeetingResource implements Serializable {
 
     @Autowired
     private MeetingService meetingService;
+
+    @Autowired
+    private ChurchService churchService;
 
     @GetMapping
     public ResponseEntity<List<Meeting>> getAll() {
@@ -46,4 +51,23 @@ public class MeetingResource implements Serializable {
         return ResponseEntity.created(uri).body(meeting);
     }
 
+    @PatchMapping("/{idMeeting}/meeting/")
+    public ResponseEntity<Meeting> addChurches(@PathVariable final String idMeeting) {
+        final Optional<Meeting> optionalMeeting = meetingService.findById(idMeeting);
+
+        if (optionalMeeting.isPresent()) {
+            final Meeting meeting = optionalMeeting.get();
+            meetingService.save(meeting);
+
+            return ResponseEntity.accepted().body(meeting);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Meeting> delete(@PathVariable String id) {
+        meetingService.deleteById(id);
+        return ResponseEntity.accepted().build();
+    }
 }

@@ -1,6 +1,6 @@
 package br.org.congregacao.meetings.domain;
 
-import br.org.congregacao.meetings.domain.types.EntranceType;
+import br.org.congregacao.meetings.domain.types.ChurchEntranceType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.azam.ulidj.ULID;
 import org.springframework.data.annotation.Id;
@@ -26,7 +26,7 @@ public class MeetingRoom implements Serializable {
     private String description;
 
     @Indexed
-    private Set<EntranceType> entrances = new HashSet<>();
+    private Set<ChurchEntranceType> entrances = new HashSet<>();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;
@@ -53,7 +53,7 @@ public class MeetingRoom implements Serializable {
     }
 
     public void addEntrance(final String entrance) {
-        this.entrances.add(Objects.requireNonNull(EntranceType.valueOf(entrance), "The Entrance Value was not found!"));
+        this.entrances.add(Objects.requireNonNull(ChurchEntranceType.valueOf(entrance), "The Entrance Value was not found!"));
     }
 
     public String getId() { return id; }
@@ -66,7 +66,7 @@ public class MeetingRoom implements Serializable {
         return description;
     }
 
-    public Set<EntranceType> getEntrances() { return Collections.unmodifiableSet(entrances); }
+    public Set<ChurchEntranceType> getEntrances() { return Collections.unmodifiableSet(entrances); }
 
     public LocalDateTime getCreated() {
         return created;

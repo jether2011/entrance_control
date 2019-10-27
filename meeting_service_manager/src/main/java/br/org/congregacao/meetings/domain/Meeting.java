@@ -1,6 +1,6 @@
 package br.org.congregacao.meetings.domain;
 
-import br.org.congregacao.meetings.domain.types.EntranceType;
+import br.org.congregacao.meetings.domain.types.ChurchEntranceType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.azam.ulidj.ULID;
 import org.springframework.data.annotation.Id;
@@ -28,7 +28,7 @@ public final class Meeting implements Serializable {
     private String churchName;
 
     @Indexed(unique = true)
-    private String churchRoom;
+    private String churchRoomName;
 
     private String churchCode;
 
@@ -36,7 +36,7 @@ public final class Meeting implements Serializable {
     private String createdByUser;
 
     @Indexed
-    private Set<Church> churchEntrances = new HashSet<>();
+    private Set<String> churchEntrances = new HashSet<>();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;
@@ -57,12 +57,13 @@ public final class Meeting implements Serializable {
         this.closeLimitAt = LocalDateTime.now();
     }
 
-    private Meeting(final String name, final String description, final String churchCode, final String churchName, final String churchRoom, final String createdByUser){
+    private Meeting(final String name, final String description, final String churchCode,
+                    final String churchName, final String churchRoomName, final String createdByUser){
         this.name = name;
         this.description = description;
         this.churchCode = churchCode;
         this.churchName = churchName;
-        this.churchRoom = churchRoom;
+        this.churchRoomName = churchRoomName;
         this.createdByUser = createdByUser;
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
@@ -70,7 +71,8 @@ public final class Meeting implements Serializable {
         this.closeLimitAt = LocalDateTime.now();
     }
 
-    public static Meeting of(final String name, final String description, final String churchCode, final String churchName, final String churchRoom, final String createdByUser){
+    public static Meeting of(final String name, final String description, final String churchCode,
+                             final String churchName, final String churchRoom, final String createdByUser){
         return new Meeting(name, description, churchCode, churchName, churchRoom, createdByUser);
     }
 
@@ -82,13 +84,13 @@ public final class Meeting implements Serializable {
 
     public String getChurchName() { return churchName; }
 
-    public String getChurchRoom() { return churchRoom; }
+    public String getChurchRoomName() { return churchRoomName; }
 
     public String getChurchCode() { return churchCode; }
 
     public String getCreatedByUser() { return createdByUser; }
 
-    public Set<Church> getChurchEntrances() { return Collections.unmodifiableSet(churchEntrances); }
+    public Set<String> getChurchEntrances() { return Collections.unmodifiableSet(churchEntrances); }
 
     public LocalDateTime getCreated() { return created; }
 
@@ -99,4 +101,8 @@ public final class Meeting implements Serializable {
     public LocalDateTime getcloseLimitAt() { return closeLimitAt; }
 
     public void setUpdated(final LocalDateTime updated) { this.updated = updated; }
+
+    public void addChurchEntrances(final String entrance){
+        this.churchEntrances.add(entrance);
+    }
 }

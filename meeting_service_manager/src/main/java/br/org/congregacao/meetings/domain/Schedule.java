@@ -18,8 +18,10 @@ public final class Schedule implements Serializable {
 
     private String status;
 
+    @Indexed(unique = true)
     private String operatorUser;
 
+    @Indexed(unique = true)
     private String meetingId;
 
     @Indexed
@@ -36,22 +38,25 @@ public final class Schedule implements Serializable {
         this.closedAt = LocalDateTime.now();
     }
 
-    private Schedule(final String status, final String operatorUser, final String meetingId, final String cardNumber) {
+    private Schedule(final String status, final String operatorUser, final String meetingId) {
         this.status = status;
         this.operatorUser = operatorUser;
         this.meetingId = meetingId;
-        this.openedAt = openedAt;
-        this.closedAt = closedAt;
 
-        this.addCardNumber(cardNumber);
+        this.openedAt = LocalDateTime.now();
+        this.closedAt = LocalDateTime.now();
     }
 
-    public static  Schedule of(final String status, final String operatorUser, final String meetingId, final String cardNumber) {
-        return new Schedule(status, operatorUser, meetingId, cardNumber);
+    public static Schedule of(final String status, final String operatorUser, final String meetingId) {
+        return new Schedule(status, operatorUser, meetingId);
     }
 
     public void addCardNumber(final String cardNumber) {
         this.cardNumbers.add(cardNumber);
+    }
+
+    public void addMeedting(final String meetingId){
+        this.meetingId = meetingId;
     }
 
     public String getId() { return id; }

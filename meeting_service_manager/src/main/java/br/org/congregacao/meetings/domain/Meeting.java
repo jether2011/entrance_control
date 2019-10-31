@@ -1,6 +1,5 @@
 package br.org.congregacao.meetings.domain;
 
-import br.org.congregacao.meetings.domain.types.ChurchEntranceType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.azam.ulidj.ULID;
 import org.springframework.data.annotation.Id;
@@ -65,6 +64,7 @@ public final class Meeting implements Serializable {
         this.churchName = churchName;
         this.churchRoomName = churchRoomName;
         this.createdByUser = createdByUser;
+
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
         this.openLimitAt = LocalDateTime.now();

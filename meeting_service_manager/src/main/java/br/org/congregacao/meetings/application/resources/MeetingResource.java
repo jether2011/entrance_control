@@ -34,7 +34,6 @@ public class MeetingResource implements Serializable {
     @GetMapping("/{id}")
     public ResponseEntity<Meeting> getOne(@PathVariable final String id) {
         final Optional<Meeting> optionalMeeting = meetingService.findById(id);
-
         if (optionalMeeting.isPresent()) {
             return ResponseEntity.ok().body(optionalMeeting.get());
         } else {
@@ -54,11 +53,9 @@ public class MeetingResource implements Serializable {
     @PatchMapping("/{idMeeting}/meeting/")
     public ResponseEntity<Meeting> addChurches(@PathVariable final String idMeeting) {
         final Optional<Meeting> optionalMeeting = meetingService.findById(idMeeting);
-
         if (optionalMeeting.isPresent()) {
             final Meeting meeting = optionalMeeting.get();
             meetingService.save(meeting);
-
             return ResponseEntity.accepted().body(meeting);
         } else {
             return ResponseEntity.notFound().build();

@@ -1,11 +1,8 @@
 package br.org.congregacao.meetings.application.resources;
 
 import br.org.congregacao.meetings.application.resources.request.ChurchRequest;
-import br.org.congregacao.meetings.application.resources.request.MeetingRequest;
 import br.org.congregacao.meetings.domain.Church;
-import br.org.congregacao.meetings.domain.Meeting;
 import br.org.congregacao.meetings.service.ChurchService;
-import br.org.congregacao.meetings.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

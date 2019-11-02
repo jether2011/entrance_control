@@ -2,7 +2,6 @@ package br.org.congregacao.meetings.application.resources;
 
 import br.org.congregacao.meetings.application.resources.request.MeetingRequest;
 import br.org.congregacao.meetings.domain.Meeting;
-import br.org.congregacao.meetings.service.ChurchService;
 import br.org.congregacao.meetings.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +21,6 @@ public class MeetingResource implements Serializable {
 
     @Autowired
     private MeetingService meetingService;
-
-    @Autowired
-    private ChurchService churchService;
 
     @GetMapping
     public ResponseEntity<List<Meeting>> getAll() {

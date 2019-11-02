@@ -1,7 +1,9 @@
 package br.org.congregacao.meetings.application.resources;
 
 import br.org.congregacao.meetings.application.resources.request.ScheduleRequest;
+import br.org.congregacao.meetings.domain.Meeting;
 import br.org.congregacao.meetings.domain.Schedule;
+import br.org.congregacao.meetings.service.MeetingService;
 import br.org.congregacao.meetings.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ public class ScheduleResource implements Serializable {
 
     @Autowired
     private ScheduleService scheduleService;
+
+    @Autowired
+    private MeetingService meetingService;
 
     @GetMapping
     public ResponseEntity<List<Schedule>> getAll() {

@@ -38,15 +38,15 @@ public final class Church implements Serializable {
         this.updated = LocalDateTime.now();
     }
 
-    private Church(final String name, final String reportNumber, final String meetingRoom) {
+    private Church(final String name, final String reportNumber) {
         this.name = name;
         this.reportNumber = reportNumber;
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
     }
 
-    public static Church of(final String name, final String reportNumber, final String meetingRoom) {
-        return new Church(name, reportNumber, meetingRoom);
+    public static Church of(String requestName, final String name, final String reportNumber) {
+        return new Church(name, reportNumber);
     }
 
     public void addMeetingRoom(final String meetingRoom) {

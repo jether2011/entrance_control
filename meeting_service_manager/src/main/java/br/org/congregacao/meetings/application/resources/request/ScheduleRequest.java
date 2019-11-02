@@ -1,5 +1,6 @@
 package br.org.congregacao.meetings.application.resources.request;
 
+import br.org.congregacao.meetings.domain.Meeting;
 import br.org.congregacao.meetings.domain.Schedule;
 
 import javax.validation.constraints.NotBlank;

@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@Document(collection = "Meetings")
+@Document(collection = "meetings")
 public final class Meeting implements Serializable {
 
     @Id
@@ -23,15 +23,12 @@ public final class Meeting implements Serializable {
 
     private String description;
 
-    @Indexed(unique = true)
     private String churchName;
 
-    @Indexed(unique = true)
-    private String churchRoomName;
+    private String churchRoom;
 
     private String churchCode;
 
-    @Indexed(unique = true)
     private String createdByUser;
 
     @Indexed
@@ -57,12 +54,12 @@ public final class Meeting implements Serializable {
     }
 
     private Meeting(final String name, final String description, final String churchCode,
-                    final String churchName, final String churchRoomName, final String createdByUser){
+                    final String churchName, final String churchRoom, final String createdByUser){
         this.name = name;
         this.description = description;
         this.churchCode = churchCode;
         this.churchName = churchName;
-        this.churchRoomName = churchRoomName;
+        this.churchRoom = churchRoom;
         this.createdByUser = createdByUser;
 
         this.created = LocalDateTime.now();
@@ -84,7 +81,7 @@ public final class Meeting implements Serializable {
 
     public String getChurchName() { return churchName; }
 
-    public String getChurchRoomName() { return churchRoomName; }
+    public String getChurchRoom() { return churchRoom; }
 
     public String getChurchCode() { return churchCode; }
 

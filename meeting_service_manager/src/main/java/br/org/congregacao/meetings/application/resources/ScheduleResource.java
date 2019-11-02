@@ -23,9 +23,6 @@ public class ScheduleResource implements Serializable {
     @Autowired
     private ScheduleService scheduleService;
 
-    @Autowired
-    private MeetingService meetingService;
-
     @GetMapping
     public ResponseEntity<List<Schedule>> getAll() {
         return ResponseEntity.ok().body(scheduleService.findAll());

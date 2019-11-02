@@ -55,10 +55,6 @@ public final class Schedule implements Serializable {
         this.cardNumbers.add(cardNumber);
     }
 
-    public void addMeedting(final String meetingId){
-        this.meetingId = meetingId;
-    }
-
     public String getId() { return id; }
 
     public String getStatus() { return status; }
@@ -72,4 +68,5 @@ public final class Schedule implements Serializable {
     public LocalDateTime getOpenedAt() { return openedAt; }
 
     public LocalDateTime getClosedAt() { return closedAt; }
+
 }

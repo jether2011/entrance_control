@@ -1,16 +1,18 @@
 package br.org.congregacao.meetings.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.azam.ulidj.ULID;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import io.azam.ulidj.ULID;
 
 @Document(collection = "meetings")
 public final class Meeting implements Serializable {
@@ -67,12 +69,12 @@ public final class Meeting implements Serializable {
         this.openLimitAt = LocalDateTime.now();
         this.closeLimitAt = LocalDateTime.now();
     }
-
+    
     public static Meeting of(final String name, final String description, final String churchCode,
                              final String churchName, final String churchRoom, final String createdByUser){
         return new Meeting(name, description, churchCode, churchName, churchRoom, createdByUser);
     }
-
+    
     public String getId() { return id; }
 
     public String getName() { return name; }
@@ -102,4 +104,10 @@ public final class Meeting implements Serializable {
     public void addChurchEntrances(final String entrance){
         this.churchEntrances.add(entrance);
     }
+    
+    public Meeting addDescription(final String description) {
+    	this.description = description;
+    	return this;
+    }
+
 }

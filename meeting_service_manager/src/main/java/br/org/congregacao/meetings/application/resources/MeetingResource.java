@@ -1,23 +1,30 @@
 package br.org.congregacao.meetings.application.resources;
 
-import br.org.congregacao.meetings.application.resources.request.MeetingRequest;
-import br.org.congregacao.meetings.domain.Meeting;
-import br.org.congregacao.meetings.service.MeetingService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.validation.Valid;
-
-import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import br.org.congregacao.meetings.application.resources.request.MeetingRequest;
+import br.org.congregacao.meetings.domain.Meeting;
+import br.org.congregacao.meetings.service.MeetingService;
+
 @RestController
 @RequestMapping(value = "/api/v1/meetings")
-public class MeetingResource implements Serializable {
+public class MeetingResource {
 
     @Autowired
     private MeetingService meetingService;
@@ -30,6 +37,7 @@ public class MeetingResource implements Serializable {
     @GetMapping("/{id}")
     public ResponseEntity<Meeting> getOne(@PathVariable final String id) {
         final Optional<Meeting> optionalMeeting = meetingService.findById(id);
+        
         if (optionalMeeting.isPresent()) {
             return ResponseEntity.ok().body(optionalMeeting.get());
         } else {
@@ -45,12 +53,13 @@ public class MeetingResource implements Serializable {
         final URI uri = uriBuilder.path("/meeting/{id}").buildAndExpand(meeting.getId()).toUri();
         return ResponseEntity.created(uri).body(meeting);
     }
-
-    @PatchMapping("/{idMeeting}/meeting/")
-    public ResponseEntity<Meeting> addChurches(@PathVariable final String idMeeting) {
-        final Optional<Meeting> optionalMeeting = meetingService.findById(idMeeting);
+    
+    @PatchMapping("/{meetingId}/description")
+    public ResponseEntity<Meeting> addMeeting(@RequestBody final String description, @PathVariable final String meetingId) {
+        final Optional<Meeting> optionalMeeting = meetingService.findById(meetingId);
         if (optionalMeeting.isPresent()) {
             final Meeting meeting = optionalMeeting.get();
+            meeting.addDescription(description);
             meetingService.save(meeting);
             return ResponseEntity.accepted().body(meeting);
         } else {

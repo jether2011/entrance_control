@@ -1,4 +1,4 @@
-package br.org.congregacao.locals.application.config;
+package br.org.congregacao.meetings.application.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

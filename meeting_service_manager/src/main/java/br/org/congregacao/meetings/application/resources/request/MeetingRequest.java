@@ -1,12 +1,13 @@
 package br.org.congregacao.meetings.application.resources.request;
 
-import br.org.congregacao.meetings.domain.Meeting;
+import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
+
+import br.org.congregacao.meetings.domain.Meeting;
 
 public class MeetingRequest implements Serializable {
 
@@ -44,7 +45,7 @@ public class MeetingRequest implements Serializable {
                 request.getChurchRoom(),
                 request.getCreatedByUser());
     }
-
+    
     private String getName() { return name; }
 
     public void setName(String name) { this.name = name; }

@@ -1,6 +1,5 @@
 package br.org.congregacao.meetings.application.resources;
 
-import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,7 @@ import br.org.congregacao.meetings.service.ScheduleService;
 
 @RestController
 @RequestMapping(value = "/api/v1/schedules")
-public class ScheduleResource implements Serializable {
+public class ScheduleResource {
 
     @Autowired
     private ScheduleService scheduleService;
@@ -54,7 +53,7 @@ public class ScheduleResource implements Serializable {
         return ResponseEntity.created(uri).body(schedule);
     }
 
-    @PatchMapping("/{idSchedule}/schedule/")
+    /*@PatchMapping("/{idSchedule}/schedule/")
     public ResponseEntity<Schedule> addSchedules(@PathVariable final String idSchedule) {
         final Optional<Schedule> optionalSchedule = scheduleService.findById(idSchedule);
         if (optionalSchedule.isPresent()) {
@@ -64,7 +63,7 @@ public class ScheduleResource implements Serializable {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Schedule> delete(@PathVariable String id) {

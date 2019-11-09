@@ -1,17 +1,19 @@
 package br.org.congregacao.meetings.application.resources.request;
 
-import br.org.congregacao.meetings.domain.Meeting;
-import br.org.congregacao.meetings.domain.Schedule;
+import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+
+import br.org.congregacao.meetings.domain.Schedule;
+import br.org.congregacao.meetings.domain.enums.StatusType;
 
 public class ScheduleRequest implements Serializable {
 
-    @NotNull
-    @NotBlank
-    private String status;
+	private static final long serialVersionUID = 1L;
+
+	@NotNull
+    private Integer status;
 
     @NotNull
     @NotBlank
@@ -20,12 +22,13 @@ public class ScheduleRequest implements Serializable {
     @NotNull
     @NotBlank
     private String meetingId;
+    
 
     public static Schedule from(final ScheduleRequest request){
-        return Schedule.of(request.getStatus(), request.getOperatorUser(), request.getMeetingId());
+        return Schedule.of(StatusType.fromId(request.getStatus()), request.getOperatorUser(), request.getMeetingId());
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -37,7 +40,7 @@ public class ScheduleRequest implements Serializable {
         return meetingId;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

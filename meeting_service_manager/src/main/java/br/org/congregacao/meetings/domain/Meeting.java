@@ -17,7 +17,9 @@ import io.azam.ulidj.ULID;
 @Document(collection = "meetings")
 public final class Meeting implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = 1L;
+
+	@Id
     private String id = ULID.random();
 
     @Indexed(unique = true)
@@ -32,7 +34,7 @@ public final class Meeting implements Serializable {
     private String churchCode;
 
     private String createdByUser;
-
+    
     @Indexed
     private Set<String> churchEntrances = new HashSet<>();
 
@@ -41,6 +43,9 @@ public final class Meeting implements Serializable {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updated;
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime open;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime openLimitAt;
@@ -51,12 +56,11 @@ public final class Meeting implements Serializable {
     public Meeting(){
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
-        this.openLimitAt = LocalDateTime.now();
-        this.closeLimitAt = LocalDateTime.now();
     }
 
     private Meeting(final String name, final String description, final String churchCode,
-                    final String churchName, final String churchRoom, final String createdByUser){
+                    final String churchName, final String churchRoom, final String createdByUser, 
+                    final LocalDateTime openLimitAt, final LocalDateTime closeLimitAt, final LocalDateTime open){
         this.name = name;
         this.description = description;
         this.churchCode = churchCode;
@@ -66,13 +70,15 @@ public final class Meeting implements Serializable {
 
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
-        this.openLimitAt = LocalDateTime.now();
-        this.closeLimitAt = LocalDateTime.now();
+        this.openLimitAt = openLimitAt;
+        this.closeLimitAt = closeLimitAt;
+        this.open = open;
     }
     
     public static Meeting of(final String name, final String description, final String churchCode,
-                             final String churchName, final String churchRoom, final String createdByUser){
-        return new Meeting(name, description, churchCode, churchName, churchRoom, createdByUser);
+                             final String churchName, final String churchRoom, final String createdByUser, 
+                             final LocalDateTime openLimitAt, final LocalDateTime closeLimitAt, final LocalDateTime open){
+        return new Meeting(name, description, churchCode, churchName, churchRoom, createdByUser, openLimitAt, closeLimitAt, open);
     }
     
     public String getId() { return id; }
@@ -88,26 +94,51 @@ public final class Meeting implements Serializable {
     public String getChurchCode() { return churchCode; }
 
     public String getCreatedByUser() { return createdByUser; }
-
+    
     public Set<String> getChurchEntrances() { return Collections.unmodifiableSet(churchEntrances); }
 
     public LocalDateTime getCreated() { return created; }
 
     public LocalDateTime getUpdated() { return updated; }
 
-    public LocalDateTime getopenLimitAt() { return openLimitAt; }
+    public LocalDateTime getOpenLimitAt() { return openLimitAt; }
 
-    public LocalDateTime getcloseLimitAt() { return closeLimitAt; }
+    public LocalDateTime getCloseLimitAt() { return closeLimitAt; }
+    
+    public LocalDateTime getOpen() { return open; }
 
     public void setUpdated(final LocalDateTime updated) { this.updated = updated; }
 
-    public void addChurchEntrances(final String entrance){
-        this.churchEntrances.add(entrance);
-    }
+    public void addChurchEntrances(final String entrance){ this.churchEntrances.add(entrance); }
     
     public Meeting addDescription(final String description) {
     	this.description = description;
     	return this;
     }
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Meeting other = (Meeting) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+    
 }

@@ -1,6 +1,8 @@
 package br.org.congregacao.meetings.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.org.congregacao.meetings.domain.enums.StatusType;
 import io.azam.ulidj.ULID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -13,12 +15,14 @@ import java.util.*;
 @Document(collection = "schedules")
 public final class Schedule implements Serializable {
 
-    @Id
+	private static final long serialVersionUID = 1L;
+
+	@Id
     private String id = ULID.random();
 
-    private String status;
+    private StatusType status;
 
-    @Indexed(unique = true)
+    @Indexed
     private String operatorUser;
 
     @Indexed(unique = true)
@@ -35,19 +39,16 @@ public final class Schedule implements Serializable {
 
     public Schedule(){
         this.openedAt = LocalDateTime.now();
-        this.closedAt = LocalDateTime.now();
     }
 
-    private Schedule(final String status, final String operatorUser, final String meetingId) {
+    private Schedule(final StatusType status, final String operatorUser, final String meetingId) {
         this.status = status;
         this.operatorUser = operatorUser;
         this.meetingId = meetingId;
-
         this.openedAt = LocalDateTime.now();
-        this.closedAt = LocalDateTime.now();
     }
 
-    public static Schedule of(final String status, final String operatorUser, final String meetingId) {
+    public static Schedule of(final StatusType status, final String operatorUser, final String meetingId) {
         return new Schedule(status, operatorUser, meetingId);
     }
 
@@ -57,7 +58,7 @@ public final class Schedule implements Serializable {
 
     public String getId() { return id; }
 
-    public String getStatus() { return status; }
+    public StatusType getStatus() { return status; }
 
     public String getOperatorUser() { return operatorUser; }
 
@@ -68,5 +69,30 @@ public final class Schedule implements Serializable {
     public LocalDateTime getOpenedAt() { return openedAt; }
 
     public LocalDateTime getClosedAt() { return closedAt; }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Schedule other = (Schedule) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 
 }

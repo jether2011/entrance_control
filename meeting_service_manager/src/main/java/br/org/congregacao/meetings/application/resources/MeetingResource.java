@@ -55,11 +55,12 @@ public class MeetingResource {
     }
     
     @PatchMapping("/{meetingId}/description")
-    public ResponseEntity<Meeting> addMeeting(@RequestBody final String description, @PathVariable final String meetingId) {
+    public ResponseEntity<Meeting> addMeeting(@RequestBody final MeetingRequest request, 
+    		@PathVariable final String meetingId) {
         final Optional<Meeting> optionalMeeting = meetingService.findById(meetingId);
         if (optionalMeeting.isPresent()) {
             final Meeting meeting = optionalMeeting.get();
-            meeting.addDescription(description);
+            meeting.addDescription(request.getDescription());
             meetingService.save(meeting);
             return ResponseEntity.accepted().body(meeting);
         } else {

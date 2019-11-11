@@ -17,6 +17,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/api/v1/administrations")
 public class AdministrationResource implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     @Autowired
     private AdministrationService administrationService;

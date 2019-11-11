@@ -8,9 +8,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Document(collection = "administrations")
 public class Administration implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     @Id
     private String id = ULID.random();
@@ -18,6 +21,7 @@ public class Administration implements Serializable {
     private String name;
     @Indexed(unique = true)
     private String cnpj;
+    
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;
@@ -63,4 +67,22 @@ public class Administration implements Serializable {
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cnpj, id, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Administration other = (Administration) obj;
+		return Objects.equals(cnpj, other.cnpj) && Objects.equals(id, other.id) && Objects.equals(name, other.name);
+	}
+
 }

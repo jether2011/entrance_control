@@ -2,12 +2,9 @@ package br.org.congregacao.locals.domain;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -16,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import br.org.congregacao.locals.service.MeetingRoomService;
 import io.azam.ulidj.ULID;
 
 @Document(collection = "churches")
@@ -76,17 +72,8 @@ public final class Church implements Serializable {
 		return Collections.unmodifiableSet(rooms);
 	}
 	
-	public void addMeetingRoom(final List<String> ids, final MeetingRoomService meetingService) {
-		final List<MeetingRoom> rooms = new ArrayList<>();
-		
-		ids.forEach(id -> {
-			final Optional<MeetingRoom> optionalRoom = meetingService.findById(id);
-			if (optionalRoom.isPresent()) {
-				rooms.add(optionalRoom.get());
-			}
-		});
-		
-		this.rooms.addAll(rooms);
+	public void addMeetingRoom(final MeetingRoom meetingRoom) {
+		this.rooms.add(meetingRoom);
 	}
 	
 	@Override

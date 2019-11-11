@@ -10,10 +10,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Document(collection = "regionals")
 public final class Regional implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     @Id
     private String id = ULID.random();
@@ -76,4 +79,22 @@ public final class Regional implements Serializable {
     public void addAdministration(final Administration administration) {
         this.administrations.add(administration);
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, initial);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Regional other = (Regional) obj;
+		return Objects.equals(id, other.id) && Objects.equals(initial, other.initial);
+	}
+    
 }

@@ -1,21 +1,26 @@
 package br.org.congregacao.locals.domain;
 
-import br.org.congregacao.locals.domain.types.EntranceType;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.azam.ulidj.ULID;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import br.org.congregacao.locals.domain.types.EntranceType;
+import io.azam.ulidj.ULID;
+
 @Document(collection = "meeting_rooms")
 public class MeetingRoom implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     @Id
     private String id = ULID.random();
@@ -35,21 +40,21 @@ public class MeetingRoom implements Serializable {
         this.updated = LocalDateTime.now();
     }
 
-    private MeetingRoom(final String name, final String description, final String entrance) {
+    private MeetingRoom(final String name, final String description) {
         this.name = name;
         this.description = description;
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
-
-        this.addEntrance(entrance);
     }
 
-    public static MeetingRoom of(final String name, final String description, final String entrance) {
-        return new MeetingRoom(name, description, entrance);
+    public static MeetingRoom of(final String name, final String description) {
+        return new MeetingRoom(name, description);
     }
 
-    public void addEntrance(final String entrance) {
-        this.entrances.add(Objects.requireNonNull(EntranceType.valueOf(entrance), "The Entrance Value was not found!"));
+    public void addEntrance(final List<EntranceType> entrances) {
+    	entrances.forEach(entrance -> {
+    		this.entrances.add(Objects.requireNonNull(entrance, "The Entrance Value was not found!"));
+    	});
     }
 
     public String getId() {
@@ -79,4 +84,22 @@ public class MeetingRoom implements Serializable {
     public void setUpdated(final LocalDateTime updated) {
         this.updated = updated;
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MeetingRoom other = (MeetingRoom) obj;
+		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+	}
+    
 }

@@ -17,7 +17,9 @@ import java.util.Collections;
 @EnableSwagger2
 public class SwaggerConfig implements Serializable {
 
-    @Bean
+    private static final long serialVersionUID = 1L;
+
+	@Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()

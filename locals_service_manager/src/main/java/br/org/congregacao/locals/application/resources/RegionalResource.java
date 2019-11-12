@@ -19,6 +19,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/api/v1/regionals")
 public class RegionalResource implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     @Autowired
     private RegionalService regionalService;

@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 public final class AdministrationRequest implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     @NotNull
     @NotBlank

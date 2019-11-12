@@ -8,6 +8,8 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public final class RegionalRequest implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
     @NotNull
     @NotBlank
@@ -23,9 +25,7 @@ public final class RegionalRequest implements Serializable {
 
     private String getInitial() { return initial; }
 
-    private String getDescription() {
-        return description;
-    }
+    private String getDescription() { return description; }
 
     public void setInitial(String initial) { this.initial = initial; }
 

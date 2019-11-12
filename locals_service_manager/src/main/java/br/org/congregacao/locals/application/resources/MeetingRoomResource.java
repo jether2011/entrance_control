@@ -2,8 +2,9 @@ package br.org.congregacao.locals.application.resources;
 
 import java.io.Serializable;
 import java.net.URI;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -20,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.org.congregacao.locals.application.resources.request.EntranceRequest;
 import br.org.congregacao.locals.application.resources.request.MeetingRoomRequest;
+import br.org.congregacao.locals.application.resources.response.MeetingRoomResponse;
 import br.org.congregacao.locals.domain.MeetingRoom;
 import br.org.congregacao.locals.service.MeetingRoomService;
 
@@ -33,16 +35,22 @@ public class MeetingRoomResource implements Serializable {
 	private MeetingRoomService meetingRoomService;
 
 	@GetMapping
-	public ResponseEntity<List<MeetingRoom>> findAllMeetingRooms() {
-		return ResponseEntity.ok().body(meetingRoomService.findAll());
+	public ResponseEntity<LinkedList<MeetingRoomResponse>> findAllMeetingRooms() {
+		final LinkedList<MeetingRoomResponse> response = 
+				meetingRoomService.findAll()
+				.stream()
+				.map(meeting -> MeetingRoomResponse.of(meeting))
+				.collect(Collectors.toCollection(LinkedList::new));
+		
+		return ResponseEntity.ok().body(response);
 	}
 	
 	@GetMapping("/{meetingRoomId}")
-	public ResponseEntity<MeetingRoom> findOne(@PathVariable final String meetingRoomId) {
+	public ResponseEntity<MeetingRoomResponse> findOne(@PathVariable final String meetingRoomId) {
 		final Optional<MeetingRoom> meetingRoomOptional = meetingRoomService.findById(meetingRoomId);
 		
 		if (meetingRoomOptional.isPresent()) {
-			return ResponseEntity.ok().body(meetingRoomOptional.get());
+			return ResponseEntity.ok().body(MeetingRoomResponse.of(meetingRoomOptional.get()));
 		} else {
 			return ResponseEntity.notFound().build();
 		}
@@ -64,6 +72,7 @@ public class MeetingRoomResource implements Serializable {
 		if (meetingRoomOptional.isPresent()) {
 			final MeetingRoom meetingRoomToUpdateEntrance = meetingRoomOptional.get();
 			meetingRoomToUpdateEntrance.addEntrance(request.getEntrances());
+			meetingRoomService.save(meetingRoomToUpdateEntrance);
 			
 			final URI uri = uriBuilder.path("/api/v1/meeting-rooms/{id}").buildAndExpand(meetingRoomToUpdateEntrance.getId()).toUri();
 	        return ResponseEntity.created(uri).body(meetingRoomToUpdateEntrance);

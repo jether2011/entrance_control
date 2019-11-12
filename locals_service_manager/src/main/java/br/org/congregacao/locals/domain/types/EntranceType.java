@@ -4,14 +4,14 @@ public enum EntranceType {
 
     MAIN_ENTRANCE("Entrada Principal");
 	
-	private final String type;
+	private final String description;
 	
-	private EntranceType(final String type) {
-		this.type = type;
+	private EntranceType(final String description) {
+		this.description = description;
 	}
 	
-	public String getType() {
-		return type;
+	public String getDescription() {
+		return description;
 	}
 
 }

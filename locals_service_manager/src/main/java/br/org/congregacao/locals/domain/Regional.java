@@ -77,6 +77,7 @@ public final class Regional implements Serializable {
     }
 
     public void addAdministration(final Administration administration) {
+    	this.updated = LocalDateTime.now();
         this.administrations.add(administration);
     }
 

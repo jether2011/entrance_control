@@ -73,6 +73,7 @@ public final class Church implements Serializable {
 	}
 	
 	public void addMeetingRoom(final MeetingRoom meetingRoom) {
+		this.updated = LocalDateTime.now();
 		this.rooms.add(meetingRoom);
 	}
 	

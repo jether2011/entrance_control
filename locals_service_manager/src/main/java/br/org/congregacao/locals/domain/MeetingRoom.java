@@ -51,9 +51,11 @@ public class MeetingRoom implements Serializable {
         return new MeetingRoom(name, description);
     }
 
-    public void addEntrance(final List<EntranceType> entrances) {
+    public void addEntrance(final List<String> entrances) {
+    	this.updated = LocalDateTime.now();
     	entrances.forEach(entrance -> {
-    		this.entrances.add(Objects.requireNonNull(entrance, "The Entrance Value was not found!"));
+    		this.entrances.add(Objects.requireNonNull(EntranceType.valueOf(entrance)
+    				, "The Entrance Value was not found!"));
     	});
     }
 

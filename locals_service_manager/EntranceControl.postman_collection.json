@@ -1,0 +1,443 @@
+{
+	"info": {
+		"_postman_id": "dfce3a57-3a45-4dc9-9ef9-75df812056bb",
+		"name": "EntranceControl",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "locals_service",
+			"item": [
+				{
+					"name": "regionals",
+					"item": [
+						{
+							"name": "/regionals",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/regionals",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"regionals"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/regionals/{id}",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"initial\": \"RAVAP\",\n\t\"description\": \"Regional Administrativa do Vale do Paraíba\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/regionals/01DSEK1F7CSTQQ0JDEC26B0NVX",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"regionals",
+										"01DSEK1F7CSTQQ0JDEC26B0NVX"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/regionals",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"initial\": \"RAVAP\",\n\t\"description\": \"Regional Administrativa do Vale do Paraíba\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/regionals",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"regionals"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/regionals/{idRegional}/regional/{idAdministration}/administration",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{host}}/regionals/01DSEK1F7CSTQQ0JDEC26B0NVX/regional/01DSEKEYMA674V0CQHSAXJ0M62/administration",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"regionals",
+										"01DSEK1F7CSTQQ0JDEC26B0NVX",
+										"regional",
+										"01DSEKEYMA674V0CQHSAXJ0M62",
+										"administration"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "administrations",
+					"item": [
+						{
+							"name": "/administrations",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/administrations",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"administrations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/administrations/{id}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/administrations/01DSEKEYMA674V0CQHSAXJ0M62",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"administrations",
+										"01DSEKEYMA674V0CQHSAXJ0M62"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/administrations",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Guaratinguetá\",\n\t\"cnpj\": \"123.123.123/0001-47\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/administrations",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"administrations"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/administrations/{administrationId}/church/{churchId}",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/administrations/01DSEKEYMA674V0CQHSAXJ0M62/church/01DSEKSR28TGMM1C9RZ5R50SP0",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"administrations",
+										"01DSEKEYMA674V0CQHSAXJ0M62",
+										"church",
+										"01DSEKSR28TGMM1C9RZ5R50SP0"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "churches",
+					"item": [
+						{
+							"name": "/churches",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/churches",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"churches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/churches/{id}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/churches/01DSEKSR28TGMM1C9RZ5R50SP0",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"churches",
+										"01DSEKSR28TGMM1C9RZ5R50SP0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/churches",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Vila Passos\",\n\t\"code\": \"221605\",\n\t\"description\": \"Congregação Vila Passos\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/churches",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"churches"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/churches/{id}/meeting-room/{meetingRoomId}",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/churches/01DSEKSR28TGMM1C9RZ5R50SP0/meeting-room/01DSEMTXBMN9N10JBZZH2R0FWS",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"churches",
+										"01DSEKSR28TGMM1C9RZ5R50SP0",
+										"meeting-room",
+										"01DSEMTXBMN9N10JBZZH2R0FWS"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "meeting_rooms",
+					"item": [
+						{
+							"name": "/meeting-rooms",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/meeting-rooms",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"meeting-rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/meeting-rooms/{id}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/meeting-rooms/01DSEMTXBMN9N10JBZZH2R0FWS",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"meeting-rooms",
+										"01DSEMTXBMN9N10JBZZH2R0FWS"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/meeting-rooms",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Sala Aula de Música\",\n\t\"description\": \"Sala Aula de Música\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/meeting-rooms",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"meeting-rooms"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/meeting-rooms/{meetingRoomId}/entrance",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"entrances\": [\n\t\t\"MAIN_ENTRANCE\"\t\n\t]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/meeting-rooms/01DSEMTXBMN9N10JBZZH2R0FWS/entrance",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"meeting-rooms",
+										"01DSEMTXBMN9N10JBZZH2R0FWS",
+										"entrance"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "meetings_service",
+			"item": [],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

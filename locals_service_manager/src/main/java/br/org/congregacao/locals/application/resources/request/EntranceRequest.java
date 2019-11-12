@@ -5,16 +5,14 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import br.org.congregacao.locals.domain.types.EntranceType;
-
 public final class EntranceRequest implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
-	private List<EntranceType> entrances;
+	private List<String> entrances;
 	
-	public List<EntranceType> getEntrances() {
+	public List<String> getEntrances() {
 		return entrances;
 	}
 }

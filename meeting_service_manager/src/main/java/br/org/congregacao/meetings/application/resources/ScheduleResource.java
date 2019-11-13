@@ -52,21 +52,22 @@ public class ScheduleResource {
         final URI uri = uriBuilder.path("/schedule/{id}").buildAndExpand(schedule.getId()).toUri();
         return ResponseEntity.created(uri).body(schedule);
     }
-
-    /*@PatchMapping("/{idSchedule}/schedule/")
-    public ResponseEntity<Schedule> addSchedules(@PathVariable final String idSchedule) {
-        final Optional<Schedule> optionalSchedule = scheduleService.findById(idSchedule);
+    
+    @PatchMapping("/{scheduleId}/status")
+    public ResponseEntity<Schedule> updateStatus(@RequestBody final ScheduleRequest request, @PathVariable final String scheduleId) {
+        final Optional<Schedule> optionalSchedule = scheduleService.findById(scheduleId);
         if (optionalSchedule.isPresent()) {
             final Schedule schedule = optionalSchedule.get();
+            schedule.addStatus(request.getStatus());
             scheduleService.save(schedule);
             return ResponseEntity.accepted().body(schedule);
         } else {
             return ResponseEntity.notFound().build();
         }
-    }*/
+    }	
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Schedule> delete(@PathVariable String id) {
+    public ResponseEntity<Schedule> delete(@PathVariable final String id) {
         scheduleService.deleteById(id);
         return ResponseEntity.accepted().build();
     }

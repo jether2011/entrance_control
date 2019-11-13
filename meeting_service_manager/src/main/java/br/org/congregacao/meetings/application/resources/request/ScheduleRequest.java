@@ -22,7 +22,6 @@ public class ScheduleRequest implements Serializable {
     @NotNull
     @NotBlank
     private String meetingId;
-    
 
     public static Schedule from(final ScheduleRequest request){
         return Schedule.of(StatusType.fromId(request.getStatus()), request.getOperatorUser(), request.getMeetingId());

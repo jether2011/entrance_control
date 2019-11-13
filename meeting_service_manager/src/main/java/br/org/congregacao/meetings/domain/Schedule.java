@@ -55,6 +55,11 @@ public final class Schedule implements Serializable {
     public void addCardNumber(final String cardNumber) {
         this.cardNumbers.add(cardNumber);
     }
+    
+    public Schedule addStatus(final Integer status) {
+    	this.status = StatusType.toEnum(status);
+    	return this;
+    }
 
     public String getId() { return id; }
 

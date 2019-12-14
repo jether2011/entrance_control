@@ -20,7 +20,15 @@ public class MeetingRequest implements Serializable {
 
     @Size(max = 512)
     private String description;
-
+    
+    @NotNull
+    @NotBlank
+    private String administrationId;
+    
+    @NotNull
+    @NotBlank
+    private String churchId;
+    
     @NotNull
     @NotBlank
     private String churchName;
@@ -59,7 +67,9 @@ public class MeetingRequest implements Serializable {
                 request.getCreatedByUser(),
                 request.getOpenLimitAt(),
                 request.getCloseLimitAt(),
-                request.getOpen());
+                request.getOpen(),
+                request.getChurchId(),
+                request.getAdministrationId());
     }
     
     public void setName(String name) { this.name = name; }
@@ -86,6 +96,14 @@ public class MeetingRequest implements Serializable {
 
 	public String getDescription() {
 		return description;
+	}
+	
+	public String getAdministrationId() {
+		return administrationId;
+	}
+	
+	public String getChurchId() {
+		return churchId;
 	}
 
 	public String getChurchName() {

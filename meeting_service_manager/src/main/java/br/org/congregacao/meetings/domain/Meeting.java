@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.org.congregacao.meetings.domain.enums.StatusType;
 import io.azam.ulidj.ULID;
 
 @Document(collection = "meetings")
@@ -24,9 +25,16 @@ public final class Meeting implements Serializable {
 
     @Indexed(unique = true)
     private String name;
+    
+    @Indexed
+    private StatusType status;
 
     private String description;
 
+    private String administrationId;
+    
+    private String churchId;
+    
     private String churchName;
 
     private String churchRoom;
@@ -36,13 +44,16 @@ public final class Meeting implements Serializable {
     private String createdByUser;
     
     @Indexed
-    private Set<String> churchEntrances = new HashSet<>();
+    private Set<String> cardNumbers = new HashSet<>();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updated;
+    
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime closeAt;
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime open;
@@ -54,15 +65,20 @@ public final class Meeting implements Serializable {
     private LocalDateTime closeLimitAt;
 
     public Meeting(){
+    	this.status = StatusType.SCHEDULED;
         this.created = LocalDateTime.now();
         this.updated = LocalDateTime.now();
     }
 
     private Meeting(final String name, final String description, final String churchCode,
                     final String churchName, final String churchRoom, final String createdByUser, 
-                    final LocalDateTime openLimitAt, final LocalDateTime closeLimitAt, final LocalDateTime open){
-        this.name = name;
+                    final LocalDateTime openLimitAt, final LocalDateTime closeLimitAt,
+                    final String churchId, final String administrationId){
+        this.status = StatusType.SCHEDULED;
+    	this.name = name;
         this.description = description;
+        this.administrationId = administrationId;
+        this.churchId = churchId;
         this.churchCode = churchCode;
         this.churchName = churchName;
         this.churchRoom = churchRoom;
@@ -72,13 +88,14 @@ public final class Meeting implements Serializable {
         this.updated = LocalDateTime.now();
         this.openLimitAt = openLimitAt;
         this.closeLimitAt = closeLimitAt;
-        this.open = open;
     }
     
     public static Meeting of(final String name, final String description, final String churchCode,
                              final String churchName, final String churchRoom, final String createdByUser, 
-                             final LocalDateTime openLimitAt, final LocalDateTime closeLimitAt, final LocalDateTime open){
-        return new Meeting(name, description, churchCode, churchName, churchRoom, createdByUser, openLimitAt, closeLimitAt, open);
+                             final LocalDateTime openLimitAt, final LocalDateTime closeLimitAt, final LocalDateTime open,
+                             final String churchId, final String administrationId){
+        return new Meeting(name, description, churchCode, churchName, churchRoom, 
+        		createdByUser, openLimitAt, closeLimitAt, churchId, administrationId);
     }
     
     public String getId() { return id; }
@@ -86,6 +103,10 @@ public final class Meeting implements Serializable {
     public String getName() { return name; }
 
     public String getDescription() { return description; }
+    
+    public String getAdministrationId() { return administrationId; }
+    
+    public String getChurchId() { return churchId; }
 
     public String getChurchName() { return churchName; }
 
@@ -95,7 +116,7 @@ public final class Meeting implements Serializable {
 
     public String getCreatedByUser() { return createdByUser; }
     
-    public Set<String> getChurchEntrances() { return Collections.unmodifiableSet(churchEntrances); }
+    public Set<String> getCardNumbers() { return Collections.unmodifiableSet(cardNumbers); }
 
     public LocalDateTime getCreated() { return created; }
 
@@ -107,15 +128,35 @@ public final class Meeting implements Serializable {
     
     public LocalDateTime getOpen() { return open; }
 
-    public void setUpdated(final LocalDateTime updated) { this.updated = updated; }
-
-    public void addChurchEntrances(final String entrance){ this.churchEntrances.add(entrance); }
+    public LocalDateTime getCloseAt() { return closeAt; }
     
-    public Meeting addDescription(final String description) {
-    	this.description = description;
+    public StatusType getStatus() { return status; }
+    
+    public void addCardNumber(final String cardNumber) {
+        this.cardNumbers.add(cardNumber);
+    }
+    
+    public Meeting openMeeting() {
+    	this.status = StatusType.IN_PROGRESS;
+    	this.updated = LocalDateTime.now();
+    	this.open = LocalDateTime.now();
     	return this;
     }
 
+    public Meeting closeMeeting() {
+    	this.status = StatusType.FINISHED;
+    	this.closeAt = LocalDateTime.now();
+    	this.updated = LocalDateTime.now();
+    	return this;
+    }
+    
+    public Meeting cancelMeeting() {
+    	this.status = StatusType.CANCELED;
+    	this.closeAt = LocalDateTime.now();
+    	this.updated = LocalDateTime.now();
+    	return this;
+    }
+    
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -17,7 +17,9 @@ import java.util.Collections;
 @EnableSwagger2
 public class SwaggerConfig implements Serializable {
 
-    @Bean
+    private static final long serialVersionUID = 1L;
+
+	@Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
@@ -29,11 +31,11 @@ public class SwaggerConfig implements Serializable {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "CCB - Locals Service Manager",
+                "CCB - Meetings Service Manager",
                 "",
                 "0.0.1",
                 "Terms of service",
-                new Contact("Jether Rodrigues", "", "jetherrodrigues@gmail.com"),
+                new Contact("Jether Rodrigues", "", "jetherrodrigues@gmail.com, israelg.andrade@gmail.com"),
                 "Apache License Version 2.0",
                 "https://www.apache.org/licenses/LICENSE-2.0",
                 Collections.emptyList());

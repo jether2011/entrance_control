@@ -54,12 +54,38 @@ public class MeetingResource {
         return ResponseEntity.created(uri).body(meeting);
     }
     
-    @PatchMapping("/{meetingId}/description")
-    public ResponseEntity<Meeting> addMeeting(@RequestBody final MeetingRequest request, @PathVariable final String meetingId) {
+    @PatchMapping("/{meetingId}/open-meeting")
+    public ResponseEntity<Meeting> openMeeting(@PathVariable final String meetingId) {
         final Optional<Meeting> optionalMeeting = meetingService.findById(meetingId);
         if (optionalMeeting.isPresent()) {
             final Meeting meeting = optionalMeeting.get();
-            meeting.addDescription(request.getDescription());
+            meeting.openMeeting();
+            meetingService.save(meeting);
+            return ResponseEntity.accepted().body(meeting);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @PatchMapping("/{meetingId}/close-meeting")
+    public ResponseEntity<Meeting> closeMeeting(@PathVariable final String meetingId) {
+        final Optional<Meeting> optionalMeeting = meetingService.findById(meetingId);
+        if (optionalMeeting.isPresent()) {
+            final Meeting meeting = optionalMeeting.get();
+            meeting.closeMeeting();
+            meetingService.save(meeting);
+            return ResponseEntity.accepted().body(meeting);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @PatchMapping("/{meetingId}/cancel-meeting")
+    public ResponseEntity<Meeting> cancelMeeting(@PathVariable final String meetingId) {
+        final Optional<Meeting> optionalMeeting = meetingService.findById(meetingId);
+        if (optionalMeeting.isPresent()) {
+            final Meeting meeting = optionalMeeting.get();
+            meeting.cancelMeeting();
             meetingService.save(meeting);
             return ResponseEntity.accepted().body(meeting);
         } else {

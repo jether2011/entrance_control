@@ -1,9 +1,9 @@
-package br.org.congregacao.meetings.resource.locals.request;
+package br.org.congregacao.meetings.resource.locals.response;
 
 import java.io.Serializable;
 import java.util.List;
 
-public final class AdministrationRequest implements Serializable {
+public final class AdministrationResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -12,7 +12,7 @@ public final class AdministrationRequest implements Serializable {
 	private String cnpj;
 	private List<Church> churches;
 	
-	public AdministrationRequest() {}
+	public AdministrationResponse() {}
 
 	public String getId() {
 		return id;

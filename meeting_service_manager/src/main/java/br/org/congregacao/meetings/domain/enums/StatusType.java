@@ -30,5 +30,16 @@ public enum StatusType {
 				.filter(status-> status.id == id)
 				.findFirst().get();
 	}
-
+	
+	public static StatusType toEnum(final Integer id) {
+		if(id == null) {
+			return null;
+		}
+		for(StatusType x : StatusType.values()) {
+			if(id.equals(x.getId())) {
+				return x;
+			}
+		}
+		throw new IllegalArgumentException("ID invalid: " + id);
+	}
 }

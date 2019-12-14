@@ -28,7 +28,7 @@ public class MeetingResource {
 
     @Autowired
     private MeetingService meetingService;
-
+    
     @GetMapping
     public ResponseEntity<List<Meeting>> getAll() {
         return ResponseEntity.ok().body(meetingService.findAll());
@@ -44,7 +44,7 @@ public class MeetingResource {
             return ResponseEntity.notFound().build();
         }
     }
-
+    
     @PostMapping
     public ResponseEntity<Meeting> create(@RequestBody @Valid final MeetingRequest request, final UriComponentsBuilder uriBuilder) {
         final Meeting meeting = MeetingRequest.from(request);

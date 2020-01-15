@@ -67,8 +67,10 @@ public class ChurchResource implements Serializable {
 		
 		if (meetingRoomOptional.isPresent() && churchOptional.isPresent()) {
 			final Church church = churchOptional.get();
-			church.addMeetingRoom(meetingRoomOptional.get());
+			final MeetingRoom meetingRoom = meetingRoomOptional.get(); 
+			church.addMeetingRoom(meetingRoom);
 			
+			churchService.save(church);
 			final URI uri = uriBuilder.path("/api/v1/churches/{id}").buildAndExpand(church.getId()).toUri();
 	        return ResponseEntity.created(uri).body(church);
 		} else {

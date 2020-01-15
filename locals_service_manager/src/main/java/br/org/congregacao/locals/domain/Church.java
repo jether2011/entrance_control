@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -27,6 +28,8 @@ public final class Church implements Serializable {
     @Indexed(unique = true)
     private String code;
     private String description;
+    
+    @DBRef
     private Set<MeetingRoom> rooms = new HashSet<>();
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

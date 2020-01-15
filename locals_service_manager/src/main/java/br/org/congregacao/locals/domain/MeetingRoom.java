@@ -27,7 +27,7 @@ public class MeetingRoom implements Serializable {
     @Indexed(unique = true)
     private String name;
     private String description;
-    @Indexed
+    
     private Set<EntranceType> entrances = new HashSet<>();
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

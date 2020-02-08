@@ -83,6 +83,18 @@ public class MeetingResource {
         meetingService.save(meeting);
         return ResponseEntity.accepted().body(meeting);
     }
+    
+    @PatchMapping("/{meetingId}/add-participant/{cardNumber}")
+    public ResponseEntity<Meeting> addParticipant(@PathVariable final String meetingId, @PathVariable final String cardNumber) {
+        final Optional<Meeting> optionalMeeting = meetingService.findById(meetingId);
+        
+        final Meeting meeting = optionalMeeting
+        		.orElseThrow(() -> new NotFoundException(String.format("Meeting %s not found", meetingId)));
+        meeting.addCardNumber(cardNumber);
+        
+        meetingService.save(meeting);
+        return ResponseEntity.accepted().body(meeting);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Meeting> delete(@PathVariable String id) {

@@ -46,16 +46,10 @@ public class MeetingRequest implements Serializable {
     private String createdByUser;
     
     @NotNull
-    @NotEmpty
     private LocalDateTime openLimitAt;
     
     @NotNull
-    @NotEmpty
     private LocalDateTime closeLimitAt;
-    
-    @NotNull
-    @NotEmpty
-    private LocalDateTime open;
 
     public static Meeting from(final MeetingRequest request){
         return Meeting.of(
@@ -67,7 +61,6 @@ public class MeetingRequest implements Serializable {
                 request.getCreatedByUser(),
                 request.getOpenLimitAt(),
                 request.getCloseLimitAt(),
-                request.getOpen(),
                 request.getChurchId(),
                 request.getAdministrationId());
     }
@@ -83,8 +76,6 @@ public class MeetingRequest implements Serializable {
     public void setChurchCode(String churchCode) { this.churchCode = churchCode; }
 
     public void setCreatedByUser(String createdByUser) { this.createdByUser = createdByUser; }
-
-	public void setOpen(LocalDateTime open) { this.open = open; }
 	
 	public void setOpenLimitAt(LocalDateTime openLimitAt) { this.openLimitAt = openLimitAt; }
 	
@@ -120,10 +111,6 @@ public class MeetingRequest implements Serializable {
 
 	public String getCreatedByUser() {
 		return createdByUser;
-	}
-	
-	public LocalDateTime getOpen() {
-		return open;
 	}
 	
 	public LocalDateTime getOpenLimitAt() {

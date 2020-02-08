@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import br.org.congregacao.meetings.application.errors.exception.BadRequestException;
 import br.org.congregacao.meetings.domain.enums.StatusType;
 import io.azam.ulidj.ULID;
 
@@ -92,7 +93,7 @@ public final class Meeting implements Serializable {
     
     public static Meeting of(final String name, final String description, final String churchCode,
                              final String churchName, final String churchRoom, final String createdByUser, 
-                             final LocalDateTime openLimitAt, final LocalDateTime closeLimitAt, final LocalDateTime open,
+                             final LocalDateTime openLimitAt, final LocalDateTime closeLimitAt,
                              final String churchId, final String administrationId){
         return new Meeting(name, description, churchCode, churchName, churchRoom, 
         		createdByUser, openLimitAt, closeLimitAt, churchId, administrationId);
@@ -133,10 +134,19 @@ public final class Meeting implements Serializable {
     public StatusType getStatus() { return status; }
     
     public void addCardNumber(final String cardNumber) {
-        this.cardNumbers.add(cardNumber);
+    	if(!this.status.equals(StatusType.IN_PROGRESS))
+    		throw new BadRequestException(String.format("A participant can not be added in a meeting with status %s", this.status));
+    	
+        if(this.cardNumbers.contains(cardNumber))
+        	throw new BadRequestException(String.format("The participant with card number [ %s ] is already added in the meeting", cardNumber));
+    	
+    	this.cardNumbers.add(cardNumber);
     }
     
     public Meeting openMeeting() {
+    	if(!this.status.equals(StatusType.SCHEDULED))
+    		throw new BadRequestException(String.format("The Meeting can not be opened because the status is %s", this.status));
+    		
     	this.status = StatusType.IN_PROGRESS;
     	this.updated = LocalDateTime.now();
     	this.open = LocalDateTime.now();
@@ -144,6 +154,9 @@ public final class Meeting implements Serializable {
     }
 
     public Meeting closeMeeting() {
+    	if(!this.status.equals(StatusType.IN_PROGRESS))
+    		throw new BadRequestException(String.format("The Meeting can not be closed because the status is %s", this.status));
+    	
     	this.status = StatusType.FINISHED;
     	this.closeAt = LocalDateTime.now();
     	this.updated = LocalDateTime.now();
@@ -151,6 +164,9 @@ public final class Meeting implements Serializable {
     }
     
     public Meeting cancelMeeting() {
+    	if(!this.status.equals(StatusType.SCHEDULED))
+    		throw new BadRequestException(String.format("The Meeting can not be canceled because the status is %s", this.status));
+    	
     	this.status = StatusType.CANCELED;
     	this.closeAt = LocalDateTime.now();
     	this.updated = LocalDateTime.now();

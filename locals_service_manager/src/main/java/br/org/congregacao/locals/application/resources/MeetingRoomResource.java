@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.org.congregacao.locals.application.errors.exception.NotFoundException;
 import br.org.congregacao.locals.application.resources.request.EntranceRequest;
 import br.org.congregacao.locals.application.resources.request.MeetingRoomRequest;
 import br.org.congregacao.locals.application.resources.response.MeetingRoomResponse;
@@ -39,7 +40,7 @@ public class MeetingRoomResource implements Serializable {
 		final LinkedList<MeetingRoomResponse> response = 
 				meetingRoomService.findAll()
 				.stream()
-				.map(meeting -> MeetingRoomResponse.of(meeting))
+				.map(MeetingRoomResponse::of)
 				.collect(Collectors.toCollection(LinkedList::new));
 		
 		return ResponseEntity.ok().body(response);
@@ -49,11 +50,8 @@ public class MeetingRoomResource implements Serializable {
 	public ResponseEntity<MeetingRoomResponse> findOne(@PathVariable final String meetingRoomId) {
 		final Optional<MeetingRoom> meetingRoomOptional = meetingRoomService.findById(meetingRoomId);
 		
-		if (meetingRoomOptional.isPresent()) {
-			return ResponseEntity.ok().body(MeetingRoomResponse.of(meetingRoomOptional.get()));
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+		return ResponseEntity.ok().body(MeetingRoomResponse.of(meetingRoomOptional
+					.orElseThrow(() -> new NotFoundException(String.format("MeetingRoom %s not found", meetingRoomId)))));
 	}
 	
 	@PostMapping
@@ -69,15 +67,12 @@ public class MeetingRoomResource implements Serializable {
 	public ResponseEntity<MeetingRoom> addEntrancesToMeetingRoom(@RequestBody @Valid final EntranceRequest request, @PathVariable final String meetingRoomId, final UriComponentsBuilder uriBuilder) {
 		final Optional<MeetingRoom> meetingRoomOptional = meetingRoomService.findById(meetingRoomId);
 		
-		if (meetingRoomOptional.isPresent()) {
-			final MeetingRoom meetingRoomToUpdateEntrance = meetingRoomOptional.get();
-			meetingRoomToUpdateEntrance.addEntrance(request.getEntrances());
-			meetingRoomService.save(meetingRoomToUpdateEntrance);
-			
-			final URI uri = uriBuilder.path("/api/v1/meeting-rooms/{id}").buildAndExpand(meetingRoomToUpdateEntrance.getId()).toUri();
-	        return ResponseEntity.created(uri).body(meetingRoomToUpdateEntrance);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+		final MeetingRoom meetingRoomToUpdateEntrance = meetingRoomOptional
+				.orElseThrow(() -> new NotFoundException(String.format("MeetingRoom %s not found", meetingRoomId)));
+		meetingRoomToUpdateEntrance.addEntrance(request.getEntrances());
+		meetingRoomService.save(meetingRoomToUpdateEntrance);
+		
+		final URI uri = uriBuilder.path("/api/v1/meeting-rooms/{id}").buildAndExpand(meetingRoomToUpdateEntrance.getId()).toUri();
+        return ResponseEntity.created(uri).body(meetingRoomToUpdateEntrance);
 	}
 }

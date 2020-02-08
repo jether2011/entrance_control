@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.org.congregacao.locals.application.errors.exception.NotFoundException;
 import br.org.congregacao.locals.application.resources.request.AdministrationRequest;
 import br.org.congregacao.locals.domain.Administration;
 import br.org.congregacao.locals.domain.Church;
@@ -43,11 +44,8 @@ public class AdministrationResource implements Serializable {
     @GetMapping("/{id}")
     public ResponseEntity<Administration> getOne(@PathVariable final String id) {
         final Optional<Administration> optionalAdministration = administrationService.findById(id);
-
-        if (optionalAdministration.isPresent())
-            return ResponseEntity.ok().body(optionalAdministration.get());
-        else
-            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(optionalAdministration
+        		.orElseThrow(() -> new NotFoundException(String.format("Administration %s not found", id))));
     }
 
     @PostMapping
@@ -60,20 +58,20 @@ public class AdministrationResource implements Serializable {
     }
     
     @PatchMapping("/{administrationId}/church/{churchId}")
-    public ResponseEntity<Administration> addAdministration(@PathVariable final String administrationId, @PathVariable final String churchId, final UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Administration> addAdministration(@PathVariable final String administrationId, @PathVariable final String churchId) {
         final Optional<Administration> optionalAdministration = administrationService.findById(administrationId);
         final Optional<Church> churchOptional = churchService.findById(churchId);
 
-        if (churchOptional.isPresent() && optionalAdministration.isPresent()) {
-            final Administration administration = optionalAdministration.get();
-            final Church church = churchOptional.get();
-            administration.addChurch(church);
-            
-            administrationService.save(administration);
-            return ResponseEntity.accepted().body(administration);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        
+        final Administration administration = optionalAdministration
+        		.orElseThrow(() -> new NotFoundException(String.format("Administration %s not found", administrationId)));
+        final Church church = churchOptional
+        		.orElseThrow(() -> new NotFoundException(String.format("Church %s not found", churchId)));
+        administration.addChurch(church);
+        
+        administrationService.save(administration);
+        return ResponseEntity.accepted().body(administration);
+        
     }
 
 }

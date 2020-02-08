@@ -1,5 +1,6 @@
 package br.org.congregacao.locals.application.resources;
 
+import br.org.congregacao.locals.application.errors.exception.NotFoundException;
 import br.org.congregacao.locals.application.resources.request.RegionalRequest;
 import br.org.congregacao.locals.domain.Administration;
 import br.org.congregacao.locals.domain.Regional;
@@ -35,13 +36,9 @@ public class RegionalResource implements Serializable {
     @GetMapping("/{id}")
     public ResponseEntity<Regional> getOne(@PathVariable final String id) {
         final Optional<Regional> optionalRegional = regionalService.findById(id);
-
-        if (optionalRegional.isPresent()) {
-            return ResponseEntity.ok().body(optionalRegional.get());
-        } else {
-            return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().body(optionalRegional
+            		.orElseThrow(() -> new NotFoundException(String.format("Regional %s not found", id))));
         }
-    }
 
     @PostMapping
     public ResponseEntity<Regional> create(@RequestBody @Valid final RegionalRequest request, final UriComponentsBuilder uriBuilder) {
@@ -57,15 +54,13 @@ public class RegionalResource implements Serializable {
         final Optional<Administration> optionalAdministration = administrationService.findById(idAdministration);
         final Optional<Regional> optionalRegional = regionalService.findById(idRegional);
 
-        if (optionalRegional.isPresent() && optionalAdministration.isPresent()) {
-            final Regional regional = optionalRegional.get();
-            final Administration administration = optionalAdministration.get();
-            regional.addAdministration(administration);
-            regionalService.save(regional);
+        final Regional regional = optionalRegional
+        		.orElseThrow(() -> new NotFoundException(String.format("Regional %s not found", idRegional)));
+        final Administration administration = optionalAdministration
+        		.orElseThrow(() -> new NotFoundException(String.format("Administration %s not found", idAdministration)));
+        regional.addAdministration(administration);
+        regionalService.save(regional);
 
-            return ResponseEntity.accepted().body(regional);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.accepted().body(regional);
     }
 }

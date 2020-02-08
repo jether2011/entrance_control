@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.org.congregacao.locals.application.errors.exception.NotFoundException;
 import br.org.congregacao.locals.application.resources.request.ChurchRequest;
 import br.org.congregacao.locals.domain.Church;
 import br.org.congregacao.locals.domain.MeetingRoom;
@@ -43,12 +44,9 @@ public class ChurchResource implements Serializable {
 	@GetMapping("/{id}")
 	public ResponseEntity<Church> findOne(@PathVariable final String id) {
 		final Optional<Church> optionalChurch = churchService.findById(id);
+		return ResponseEntity.ok().body(optionalChurch
+				.orElseThrow(() -> new NotFoundException(String.format("Church %s not found", id))));
 		
-		if (optionalChurch.isPresent()) {
-			return ResponseEntity.ok().body(optionalChurch.get());
-		} else {
-			return ResponseEntity.notFound().build();
-		}
 	}
 	
 	@PostMapping
@@ -65,16 +63,15 @@ public class ChurchResource implements Serializable {
 		final Optional<MeetingRoom> meetingRoomOptional = meetingRoomService.findById(meetingRoomId);
 		final Optional<Church> churchOptional = churchService.findById(id);
 		
-		if (meetingRoomOptional.isPresent() && churchOptional.isPresent()) {
-			final Church church = churchOptional.get();
-			final MeetingRoom meetingRoom = meetingRoomOptional.get(); 
-			church.addMeetingRoom(meetingRoom);
-			
-			churchService.save(church);
-			final URI uri = uriBuilder.path("/api/v1/churches/{id}").buildAndExpand(church.getId()).toUri();
-	        return ResponseEntity.created(uri).body(church);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
+		final Church church = churchOptional
+				.orElseThrow(() -> new NotFoundException(String.format("Church %s not found", id)));
+		final MeetingRoom meetingRoom = meetingRoomOptional
+				.orElseThrow(() -> new NotFoundException(String.format("MeetingRoom %s not found", meetingRoomId))); 
+		church.addMeetingRoom(meetingRoom);
+		
+		churchService.save(church);
+		final URI uri = uriBuilder.path("/api/v1/churches/{id}").buildAndExpand(church.getId()).toUri();
+        
+		return ResponseEntity.created(uri).body(church);
 	}
 }

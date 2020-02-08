@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.org.congregacao.meetings.application.errors.exception.NotFoundException;
 import br.org.congregacao.meetings.application.resources.request.MeetingRequest;
 import br.org.congregacao.meetings.domain.Meeting;
 import br.org.congregacao.meetings.service.MeetingService;
@@ -37,12 +38,8 @@ public class MeetingResource {
     @GetMapping("/{id}")
     public ResponseEntity<Meeting> getOne(@PathVariable final String id) {
         final Optional<Meeting> optionalMeeting = meetingService.findById(id);
-        
-        if (optionalMeeting.isPresent()) {
-            return ResponseEntity.ok().body(optionalMeeting.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok().body(optionalMeeting
+            		.orElseThrow(() -> new NotFoundException(String.format("Meeting %s not found", id))));
     }
     
     @PostMapping
@@ -57,40 +54,34 @@ public class MeetingResource {
     @PatchMapping("/{meetingId}/open-meeting")
     public ResponseEntity<Meeting> openMeeting(@PathVariable final String meetingId) {
         final Optional<Meeting> optionalMeeting = meetingService.findById(meetingId);
-        if (optionalMeeting.isPresent()) {
-            final Meeting meeting = optionalMeeting.get();
-            meeting.openMeeting();
-            meetingService.save(meeting);
-            return ResponseEntity.accepted().body(meeting);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        
+        final Meeting meeting = optionalMeeting
+        		.orElseThrow(() -> new NotFoundException(String.format("Meeting %s not found", meetingId)));
+        meeting.openMeeting();
+        meetingService.save(meeting);
+        return ResponseEntity.accepted().body(meeting);
     }
     
     @PatchMapping("/{meetingId}/close-meeting")
     public ResponseEntity<Meeting> closeMeeting(@PathVariable final String meetingId) {
         final Optional<Meeting> optionalMeeting = meetingService.findById(meetingId);
-        if (optionalMeeting.isPresent()) {
-            final Meeting meeting = optionalMeeting.get();
-            meeting.closeMeeting();
-            meetingService.save(meeting);
-            return ResponseEntity.accepted().body(meeting);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        
+        final Meeting meeting = optionalMeeting
+        		.orElseThrow(() -> new NotFoundException(String.format("Meeting %s not found", meetingId)));
+        meeting.closeMeeting();
+        meetingService.save(meeting);
+        return ResponseEntity.accepted().body(meeting);
     }
     
     @PatchMapping("/{meetingId}/cancel-meeting")
     public ResponseEntity<Meeting> cancelMeeting(@PathVariable final String meetingId) {
         final Optional<Meeting> optionalMeeting = meetingService.findById(meetingId);
-        if (optionalMeeting.isPresent()) {
-            final Meeting meeting = optionalMeeting.get();
-            meeting.cancelMeeting();
-            meetingService.save(meeting);
-            return ResponseEntity.accepted().body(meeting);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        
+        final Meeting meeting = optionalMeeting
+        		.orElseThrow(() -> new NotFoundException(String.format("Meeting %s not found", meetingId)));
+        meeting.cancelMeeting();
+        meetingService.save(meeting);
+        return ResponseEntity.accepted().body(meeting);
     }
 
     @DeleteMapping("/{id}")

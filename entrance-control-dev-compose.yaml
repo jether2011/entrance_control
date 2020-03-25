@@ -1,0 +1,56 @@
+version: '3.7'
+services:
+  #### SERVICES
+  service-registry:
+    # build:
+    #     context: ./service-registry
+    #     dockerfile: Dockerfile
+    image: entrance-control/service-registry:0.0.1
+    hostname: service-registry
+    networks:
+      - proxy
+    ports:
+      - "8761:8761"
+    restart: on-failure
+
+  api-gateway:
+    # build:
+    #     context: ./api-gateway
+    #     dockerfile: Dockerfile
+    image: entrance-control/api-gateway:0.0.1
+    container_name: api-gateway
+    environment:   
+      - "SPRING_PROFILES_ACTIVE=dev"
+    ports:
+      - "9999:9999"
+    depends_on:
+      - service-registry
+    links:
+      - service-registry:service-registry
+    networks:
+      - proxy
+    restart: on-failure
+
+  admin-server:
+    # build:
+    #     context: ./api-gateway
+    #     dockerfile: Dockerfile
+    image: entrance-control/admin-server:0.0.1
+    container_name: admin-server
+    environment:   
+      - "SPRING_PROFILES_ACTIVE=dev"
+    ports:
+      - "8092:8092"
+    depends_on:
+      - service-registry
+    links:
+      - service-registry:service-registry
+    networks:
+      - proxy
+    restart: on-failure
+
+    ## ENTRANCE CONTROL SERVICES
+
+
+networks:
+  proxy:

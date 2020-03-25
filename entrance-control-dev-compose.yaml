@@ -1,26 +1,22 @@
 version: '3.7'
 services:
   #### SERVICES
+  # http://localhost:8761/
   service-registry:
-    # build:
-    #     context: ./service-registry
-    #     dockerfile: Dockerfile
     image: entrance-control/service-registry:0.0.1
-    hostname: service-registry
+    hostname: service.registry
     networks:
-      - proxy
+      - entrance-control
     ports:
       - "8761:8761"
     restart: on-failure
 
+  # http://localhost:9999/
   api-gateway:
-    # build:
-    #     context: ./api-gateway
-    #     dockerfile: Dockerfile
     image: entrance-control/api-gateway:0.0.1
-    container_name: api-gateway
+    container_name: api.gateway
     environment:   
-      - "SPRING_PROFILES_ACTIVE=dev"
+      - "SPRING_PROFILES_ACTIVE=docker"
     ports:
       - "9999:9999"
     depends_on:
@@ -28,17 +24,15 @@ services:
     links:
       - service-registry:service-registry
     networks:
-      - proxy
+      - entrance-control
     restart: on-failure
 
+  # http://localhost:8092/
   admin-server:
-    # build:
-    #     context: ./api-gateway
-    #     dockerfile: Dockerfile
     image: entrance-control/admin-server:0.0.1
-    container_name: admin-server
+    container_name: admin.server
     environment:   
-      - "SPRING_PROFILES_ACTIVE=dev"
+      - "SPRING_PROFILES_ACTIVE=docker"
     ports:
       - "8092:8092"
     depends_on:
@@ -46,11 +40,45 @@ services:
     links:
       - service-registry:service-registry
     networks:
-      - proxy
+      - entrance-control
     restart: on-failure
 
-    ## ENTRANCE CONTROL SERVICES
-
+  ## ENTRANCE CONTROL SERVICES
+  # http://localhost:8090/
+  locals-service:
+    image: entrance-control/locals_service_manager:0.0.1
+    container_name: locals.service
+    environment:   
+      - "SPRING_PROFILES_ACTIVE=docker"
+    ports:
+      - "8090:8090"
+    depends_on:
+      - service-registry
+      - api-gateway
+    links:
+      - service-registry:service-registry
+      - api-gateway:api-gateway
+    networks:
+      - entrance-control
+    restart: on-failure 
+    
+  # http://localhost:8091/
+  meetings-service:
+    image: entrance-control/meeting_service_manager:0.0.1
+    container_name: meetings.service
+    environment:   
+      - "SPRING_PROFILES_ACTIVE=docker"
+    ports:
+      - "8091:8091"
+    depends_on:
+      - service-registry
+      - api-gateway
+    links:
+      - service-registry:service-registry
+      - api-gateway:api-gateway
+    networks:
+      - entrance-control
+    restart: on-failure
 
 networks:
-  proxy:
+  entrance-control:

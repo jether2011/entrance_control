@@ -62,3 +62,13 @@ Pilha de tecnologias que deverão ser utilizadas:
 
 ![](https://github.com/jether2011/entrance_control/blob/master/diagrama_CDU.png?raw=true)
 
+
+### Executando os services em Docker
+
+1. Executar `git pull origin dev`
+
+2. Executar na raiz do projeto, `sh build-apps-images.sh`
+
+3. Executar na raiz do projeto, `sh deploy-services.sh` e o `docker-compose` irá subir todos os serviços utilizando as imagens criadas no passo `2`
+
+Para realizar undeploy de todos os serviços, basta executar `sh undeploy-services.sh` e assim o `docker-compose` irá realizar, com segurança, o stop de todos os serviços

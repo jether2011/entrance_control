@@ -652,6 +652,42 @@
 					"response": []
 				},
 				{
+					"name": "Feing /workgroups",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_meetings}}/workgroups",
+							"host": [
+								"{{host_meetings}}"
+							],
+							"path": [
+								"workgroups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Feing /churches/{id}/meeting-rooms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_meetings}}/churches/{id}/meeting-rooms",
+							"host": [
+								"{{host_meetings}}"
+							],
+							"path": [
+								"churches",
+								"{id}",
+								"meeting-rooms"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/meetings/{id}/open-meeting",
 					"request": {
 						"method": "PATCH",

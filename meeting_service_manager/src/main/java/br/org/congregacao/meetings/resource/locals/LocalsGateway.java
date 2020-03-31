@@ -19,7 +19,7 @@ public interface LocalsGateway {
 	@GetMapping("/api/v1/churches/{id}/meeting-rooms")
 	ChurchMeetingRoomsResponse findMeetingRoomsByChurchId(@PathVariable final String id);
 	
-	@GetMapping(produces = "${workgroups.api.version:application/vnd.workgroups.v1+json}")
+	@GetMapping(value="/api/workgroups", produces = "${workgroups.api.version:application/vnd.workgroups.v1+json}")
 	List<WorkGroupResponse> findAllWorkGroups();
 	
 }

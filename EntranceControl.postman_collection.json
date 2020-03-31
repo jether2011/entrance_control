@@ -158,6 +158,104 @@
 					"_postman_isSubFolder": true
 				},
 				{
+					"name": "workgroups",
+					"item": [
+						{
+							"name": "/workgroups",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/vnd.workgroups.v1+json"
+									}
+								],
+								"url": {
+									"raw": "{{host_locals_regional}}/workgroups",
+									"host": [
+										"{{host_locals_regional}}"
+									],
+									"path": [
+										"workgroups"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/workgroups/{id}",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/vnd.workgroup_details.v1+json"
+									}
+								],
+								"url": {
+									"raw": "{{host_locals}}/workgroups/01DSEK1F7CSTQQ0JDEC26B0NVX",
+									"host": [
+										"{{host_locals}}"
+									],
+									"path": [
+										"workgroups",
+										"01DSEK1F7CSTQQ0JDEC26B0NVX"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/workgroups",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"type": "text",
+										"value": "application/vnd.workgroup_create.v1+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\": \"Administradores\",\n\t\"description\": \"Administradores da ADM Guaratinguetá\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host_locals}}/workgroups",
+									"host": [
+										"{{host_locals}}"
+									],
+									"path": [
+										"workgroups"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "administrations",
 					"item": [
 						{
@@ -285,6 +383,25 @@
 									"path": [
 										"churches",
 										"01DSEKSR28TGMM1C9RZ5R50SP0"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/churches/{id}/meeting-rooms",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host_locals}}/churches/01DSEKSR28TGMM1C9RZ5R50SP0/meeting-rooms",
+									"host": [
+										"{{host_locals}}"
+									],
+									"path": [
+										"churches",
+										"01DSEKSR28TGMM1C9RZ5R50SP0",
+										"meeting-rooms"
 									]
 								}
 							},

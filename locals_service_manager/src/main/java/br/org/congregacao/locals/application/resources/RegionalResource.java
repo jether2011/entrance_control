@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/v1/regionals")
+@RequestMapping(value = "/api/regionals")
 public class RegionalResource implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -27,20 +27,20 @@ public class RegionalResource implements Serializable {
     private RegionalService regionalService;
     @Autowired
     private AdministrationService administrationService;
-
-    @GetMapping
+    
+    @GetMapping(produces = "application/vnd.regionals.v1+json")
     public ResponseEntity<List<Regional>> getAll() {
         return ResponseEntity.ok().body(regionalService.findAll());
     }
 
-    @GetMapping("/{id}")
+	@GetMapping(value = "/{id}", produces = "application/vnd.regional_details.v1+json")
     public ResponseEntity<Regional> getOne(@PathVariable final String id) {
         final Optional<Regional> optionalRegional = regionalService.findById(id);
         return ResponseEntity.ok().body(optionalRegional
             		.orElseThrow(() -> new NotFoundException(String.format("Regional %s not found", id))));
         }
 
-    @PostMapping
+    @PostMapping(produces = "application/vnd.regional_create.v1+json")
     public ResponseEntity<Regional> create(@RequestBody @Valid final RegionalRequest request, final UriComponentsBuilder uriBuilder) {
         final Regional regional = RegionalRequest.from(request);
         regionalService.save(regional);
@@ -49,7 +49,7 @@ public class RegionalResource implements Serializable {
         return ResponseEntity.created(uri).body(regional);
     }
 
-    @PatchMapping("/{idRegional}/regional/{idAdministration}/administration")
+    @PatchMapping(value = "/{idRegional}/regional/{idAdministration}/administration", produces = "application/vnd.regional_partial_update.v1+json")
     public ResponseEntity<Regional> addAdministration(@PathVariable final String idRegional, @PathVariable final String idAdministration) {
         final Optional<Administration> optionalAdministration = administrationService.findById(idAdministration);
         final Optional<Regional> optionalRegional = regionalService.findById(idRegional);

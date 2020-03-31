@@ -20,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.org.congregacao.locals.application.errors.exception.NotFoundException;
 import br.org.congregacao.locals.application.resources.request.ChurchRequest;
+import br.org.congregacao.locals.application.resources.response.ChurchMeetingRoomsResponse;
 import br.org.congregacao.locals.domain.Church;
 import br.org.congregacao.locals.domain.MeetingRoom;
 import br.org.congregacao.locals.service.ChurchService;
@@ -47,6 +48,14 @@ public class ChurchResource implements Serializable {
 		return ResponseEntity.ok().body(optionalChurch
 				.orElseThrow(() -> new NotFoundException(String.format("Church %s not found", id))));
 		
+	}
+	
+	@GetMapping("/{id}/meeting-rooms")
+	public ResponseEntity<ChurchMeetingRoomsResponse> getMetingRoomsByChurch(@PathVariable final String id) {
+		final Church church = churchService.findById(id)
+				.orElseThrow(() -> new NotFoundException(String.format("Church %s not found", id)));
+		
+		return ResponseEntity.ok().body(ChurchMeetingRoomsResponse.from(church));
 	}
 	
 	@PostMapping
